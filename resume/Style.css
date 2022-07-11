@@ -8,6 +8,9 @@ body {
 	max-width: 960px;
 	padding-left: 2.275%;
 	padding-right: 2.275%;
+	background-image: url("src/background.png");
+	background-size: 100%;
+	
 }
 /* Header */
 header {
@@ -15,9 +18,10 @@ header {
 	display: block;
 }
 header .profileLogo .logoPlaceholder {
-	background-color: rgba(208,207,207,1.00);
+	
 	width: 187px;
 	text-align: center;
+	border-radius: 10%;
 }
 header .logoPlaceholder span {
 	width: 80px;
@@ -27,6 +31,7 @@ header .logoPlaceholder span {
 	font-size: 30px;
 	font-weight: 700;
 	line-height: 53px;
+	
 }
 header .profilePhoto {
 	background-color: rgba(237,237,237,1.00);
@@ -46,25 +51,25 @@ header .profilePhoto {
 
 header .profileHeader h1 {
 	font-family: 'Montserrat', sans-serif;
-	color: rgba(146,146,146,1.00);
+	color: goldenrod;
 	font-size: 30px;
 	font-weight: 700;
 	line-height: 24px;
 }
 header .profileHeader h3 {
 	font-family: sans-serif;
-	color: rgba(146,146,146,1.00);
+	color: darkgoldenrod;
 	font-size: 14px;
 	font-weight: 700;
 	line-height: 24px;
 }
 hr {
-	background-color: rgba(208,207,207,1.00);
+	background-color: gold;
 	height: 1px;
 }
 header .profileHeader p {
 	font-family: sans-serif;
-	color: rgba(146,146,146,1.00);
+	color: darkgoldenrod;
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.8;
