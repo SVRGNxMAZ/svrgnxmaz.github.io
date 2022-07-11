@@ -30,14 +30,20 @@ header .logoPlaceholder span {
 }
 header .profilePhoto {
 	background-color: rgba(237,237,237,1.00);
+	background-image: url(src/Akram.png);
+	background-position: center;
+	background-size: 150%;
+	background-repeat: no-repeat;
 	width: 259px;
 	border-radius: 50%;
 	height: 259px;
 	clear: both;
 }
-header .profilePhoto{
-	border-image-width: 259px;
+
+.profilePhoto:hover{
+	background-size: 100%;
 }
+
 header .profileHeader h1 {
 	font-family: 'Montserrat', sans-serif;
 	color: rgba(146,146,146,1.00);
@@ -48,7 +54,7 @@ header .profileHeader h1 {
 header .profileHeader h3 {
 	font-family: sans-serif;
 	color: rgba(146,146,146,1.00);
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 700;
 	line-height: 24px;
 }
