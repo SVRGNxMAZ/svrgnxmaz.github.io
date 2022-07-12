@@ -21,7 +21,7 @@ header .profileLogo .logoPlaceholder {
 	
 	width: 187px;
 	text-align: center;
-	border-radius: 10%;
+	border-radius: 15px;
 }
 header .logoPlaceholder span {
 	width: 80px;
@@ -94,7 +94,7 @@ header .socialNetworkNavBar .socialNetworkNav img:hover {
 }
 .section1 .sectionTitle, .section2 .sectionTitle {
 	font-family: 'Montserrat', sans-serif;
-	color: rgba(146,146,146,1.00);
+	color: gold;
 	font-size: 18px;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -105,7 +105,7 @@ header .socialNetworkNavBar .socialNetworkNav img:hover {
 	clear: both;
 }
 .section1 .sectionTitleRule2, .section2 .sectionTitleRule2 {
-	background-color: rgba(208,207,207,1.00);
+	background-color: palegoldenrod;
 	height: 1px;
 	padding: 0px;
 }
@@ -113,27 +113,27 @@ header .socialNetworkNavBar .socialNetworkNav img:hover {
 	font-family: ProximaNova;
 	font-size: 14px;
 	font-weight: 100;
-	color: rgba(208,207,207,1.00);
+	color: darkgoldenrod;
 }
 .mainContent .section1 .section1Content span {
-	color: rgba(146,146,146,1.00);
+	color: goldenrod;
 	font-family: sans-serif;
 }
 .section2 .sectionContentTitle {
 	font-family: sans-serif;
-	color: rgba(146,146,146,1.00);
+	color: goldenrod;
 	font-size: 18px;
 	font-weight: 700;
 }
 .section2 .sectionContentSubTitle {
 	font-family: sans-serif;
-	color: rgba(68,67,67,1.00);
+	color: darkgoldenrod;
 	font-size: 14px;
 	font-weight: 400;
 }
 .section2 .sectionContent {
 	font-family: sans-serif;
-	color: rgba(146,146,146,1.00);
+	color: white;
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.8;
@@ -142,51 +142,54 @@ header .socialNetworkNavBar .socialNetworkNav img:hover {
 	display: block;
 }
 .mainContent .externalResourcesNav .externalResources {
-	background-color: rgba(208,207,207,1.00);
+	background-color: goldenrod;
 	display: inline-block;
 	text-align: center;
-	margin-top: 0px;
-	padding-top: 3%;
 	cursor: pointer;
+	border-radius: 10px;
+	width: 200px;
+	height: 50px;
 }
 .mainContent .externalResourcesNav .externalResources:hover {
-	background-color: rgba(153,153,153,1.00);
+	background-color: gold;
 }
-.externalResourcesNav .externalResources a {
+.externalResourcesNav .externalResources   a {
 	font-family: 'Montserrat', sans-serif;
-	color: rgba(255,255,255,1.00);
+	color: black;
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 18px;
 	text-decoration: none;
+	text-align-last: center;
 }
-.stretch {
+.stretch  {
 	content: '';
 	display: inline-block;
 	margin-left: 2%;
 	margin-right: 2%;
 }
+
 /* Footer */
 footer .footerDisclaimer {
 	font-family: sans-serif;
 	font-size: 14px;
 	line-height: 18px;
-	color: rgba(104,103,103,1.00);
+	color: goldenrod;
 	font-weight: 700;
 }
 footer .footerDisclaimer span {
-	color: rgba(181,178,178,1.00);
+	color: darkgoldenrod;
 	font-weight: 400;
 }
 footer .footerNote {
 	font-family: sans-serif;
 	font-size: 14px;
 	line-height: 18px;
-	color: rgba(104,103,103,1.00);
+	color: goldenrod;
 	font-weight: 700;
 }
 footer .footerNote span {
-	color: rgba(181,178,178,1.00);
+	color: darkgoldenrod;
 	font-weight: 400;
 }
 
