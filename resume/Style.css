@@ -297,7 +297,7 @@
     .contact-item {
       display: flex;
       align-items: center;
-      padding: 1.5rem;
+      padding: 1rem;
       background: var(--glass-bg);
       border-radius: 12px;
       transition: var(--transition);
