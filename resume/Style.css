@@ -30,6 +30,7 @@
       color: var(--text-color);
       line-height: 1.6;
       overflow-x: hidden;
+      font-size: var(--font-size-base);
     }
 
     /* Animated background */
@@ -554,3 +555,174 @@
 
     .skill-item:nth-child(odd) { animation-delay: 0.1s; }
     .skill-item:nth-child(even) { animation-delay: 0.2s; }
+
+/* Laptop/Desktop styles (default) */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.profile-info h1 {
+  font-size: var(--font-size-5xl); /* 3rem → 48px */
+}
+
+.profile-info h2 {
+  font-size: var(--font-size-xl); /* 1.5rem → 24px */
+}
+
+.profile-bio {
+  font-size: var(--font-size-md); /* 1.1rem → ~18px */
+}
+
+.section-title {
+  font-size: var(--font-size-3xl); /* 2rem → 32px */
+}
+
+.timeline-title {
+  font-size: var(--font-size-lg); /* 1.3rem → 20px */
+}
+
+.timeline-date {
+  font-size: var(--font-size-sm); /* 0.9rem → 14px */
+}
+
+/* Tablet adjustments (768px-1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .profile-info h1 {
+    font-size: var(--font-size-4xl); /* 40px */
+  }
+  
+  .profile-info h2 {
+    font-size: var(--font-size-lg); /* 20px */
+  }
+  
+  .card {
+    padding: 2rem;
+  }
+}
+
+/* Mobile adjustments (below 768px) */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+  
+  /* Layout adjustments */
+  .header-content {
+    padding-top: 1rem;
+  }
+  
+  .profile-logo img {
+    height: 80px;
+  }
+  
+  .profile-info h1 {
+    font-size: var(--font-size-3xl); /* 32px */
+  }
+  
+  .profile-info h2 {
+    font-size: var(--font-size-md); /* 18px */
+  }
+  
+  .section-title {
+    font-size: var(--font-size-2xl); /* 28px */
+  }
+  
+  /* Stack contact items */
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Adjust timeline */
+  .timeline-container {
+    padding-left: 1rem;
+  }
+  
+  .timeline-item {
+    padding: 1.5rem;
+    margin-left: 1rem;
+  }
+  
+  .timeline-item::before {
+    left: -1.75rem;
+    top: 1.5rem;
+  }
+  
+  /* Skills grid - 2 columns */
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Stack CTA buttons */
+  .cta-buttons {
+    flex-direction: column;
+  }
+  
+  .cta-button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  /* Reduce heavy animations on mobile */
+  .bg-animation, .particles, .header-glow {
+    animation: none;
+    opacity: 0.1;
+  }
+  
+  .card:hover, .skill-item:hover, .contact-item:hover {
+    transform: none;
+    box-shadow: var(--shadow-light);
+  }
+}
+
+/* Small mobile devices (below 480px) */
+@media (max-width: 480px) {
+  .profile-info h1 {
+    font-size: var(--font-size-2xl); /* 28px */
+  }
+  
+  .profile-logo img {
+    height: 70px;
+  }
+  
+  .skills-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .social-links a {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* Ensure all interactive elements meet minimum touch target size */
+  a, button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Very small mobile devices (below 375px) */
+@media (max-width: 375px) {
+  .profile-info h1 {
+    font-size: var(--font-size-xl); /* 24px */
+  }
+  
+  .profile-info h2 {
+    font-size: var(--font-size-base); /* 16px */
+  }
+  
+  .timeline-title {
+    font-size: var(--font-size-md); /* 18px */
+  }
+}
