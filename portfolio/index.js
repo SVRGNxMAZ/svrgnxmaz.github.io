@@ -189,12 +189,36 @@ document.addEventListener('DOMContentLoaded', () => {
             el.appendChild(debug);
         }
 
-        // helper to set debug text
+        // helper to set debug text (adds timestamp)
         const setDebug = (msg) => {
-            try { debug.textContent = msg; } catch (e) { /* ignore */ }
+            try { debug.textContent = new Date().toLocaleTimeString() + ' — ' + msg; } catch (e) { /* ignore */ }
             // also log to console for deeper inspection
             console.debug('ServerStatus debug:', msg, url);
         };
+
+        // show ping URL and add a quick-open link for manual testing
+        try {
+            const pingUrl = (function () {
+                if (/^https?:\/\//i.test(url)) {
+                    return url.replace(/\/$/, '') + '/images/TravelBuddyLogo.png';
+                }
+                return window.location.origin.replace(/\/$/, '') + '/' + String(url).replace(/^\//, '') + '/images/TravelBuddyLogo.png';
+            })();
+            // clickable small link
+            let link = el.querySelector('.status-ping-link');
+            if (!link) {
+                link = document.createElement('a');
+                link.className = 'status-ping-link';
+                link.style.marginLeft = '8px';
+                link.style.fontSize = '0.8rem';
+                link.style.color = '#1976d2';
+                link.style.textDecoration = 'underline';
+                link.target = '_blank';
+                el.appendChild(link);
+            }
+            link.href = pingUrl;
+            link.textContent = 'Open ping image';
+        } catch (e) { /* ignore */ }
 
         // Run once immediately
         checkServerStatus(url, el).then(ok => setDebug(ok ? 'fetch/img ok' : 'not reachable'))
