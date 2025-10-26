@@ -52,3 +52,64 @@ document.querySelectorAll('.project-card').forEach(card => {
         card.style.transform = 'translateY(0) scale(1)';
     });
 });
+
+// --- Server status check (image-based ping with timeout) ---
+function checkServerStatus(url, el, timeout = 5000) {
+    const dot = el.querySelector('.status-dot');
+    const text = el.querySelector('.status-text');
+
+    // Show checking state
+    el.classList.remove('online', 'offline');
+    text.textContent = 'Checking...';
+    // orange = checking
+    dot.style.background = '#f0ad4e';
+
+    return new Promise((resolve) => {
+        let timedOut = false;
+        const timer = setTimeout(() => {
+            timedOut = true;
+            el.classList.remove('online');
+            el.classList.add('offline');
+            text.textContent = 'Offline';
+            // red = offline
+            if (dot) dot.style.background = '#dc3545';
+            resolve(false);
+        }, timeout);
+
+        // Use image ping (works around CORS for reachability)
+        const img = new Image();
+        // Append a cache-busting query param
+        img.src = url.replace(/\/$/, '') + '/images/favicon.ico' + '?_=' + Date.now();
+
+        img.onload = function() {
+            if (timedOut) return;
+            clearTimeout(timer);
+            el.classList.remove('offline');
+            el.classList.add('online');
+            text.textContent = 'Online';
+            // green = online
+            if (dot) dot.style.background = '#28a745';
+            resolve(true);
+        };
+
+        img.onerror = function() {
+            if (timedOut) return;
+            clearTimeout(timer);
+            el.classList.remove('online');
+            el.classList.add('offline');
+            text.textContent = 'Offline';
+            // red = offline
+            if (dot) dot.style.background = '#dc3545';
+            resolve(false);
+        };
+    });
+}
+
+// Initialize status checks for any .server-status elements with data-url
+document.querySelectorAll('.server-status[data-url]').forEach(el => {
+    const url = el.dataset.url;
+    // Run once immediately
+    checkServerStatus(url, el);
+    // Re-check every 30 seconds
+    setInterval(() => checkServerStatus(url, el), 30000);
+});

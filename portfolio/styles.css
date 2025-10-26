@@ -411,6 +411,38 @@ nav {
     box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
 }
 
+/* Server status indicator */
+.server-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.server-status .status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #f0ad4e; /* amber = checking */
+    box-shadow: 0 0 6px rgba(0,0,0,0.12);
+    flex: 0 0 12px;
+}
+
+.server-status.online .status-dot {
+    background: #28a745; /* green */
+}
+
+.server-status.offline .status-dot {
+    background: #dc3545; /* red */
+}
+
+.server-status .status-text {
+    color: #333;
+    font-weight: 600;
+}
+
 /* Footer */
 footer {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
