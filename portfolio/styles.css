@@ -443,6 +443,36 @@ nav {
     font-weight: 600;
 }
 
+/* Static controls for server status */
+.server-status .status-debug {
+    font-size: 0.85rem;
+    margin-left: 8px;
+    color: #666;
+}
+
+.server-status .status-ping-link {
+    font-size: 0.85rem;
+    margin-left: 8px;
+    color: #1976d2;
+    text-decoration: underline;
+}
+
+.server-status .status-check-btn {
+    margin-left: 8px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    border: none;
+    background: #1976d2;
+    color: #fff;
+    cursor: pointer;
+}
+
+.server-status .status-check-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
 /* Footer */
 footer {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
