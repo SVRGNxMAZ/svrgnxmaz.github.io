@@ -174,10 +174,36 @@ function checkServerStatus(url, el, timeout = 5000) {
 }
 
 // Initialize status checks for any .server-status elements with data-url
-document.querySelectorAll('.server-status[data-url]').forEach(el => {
-    const url = el.dataset.url;
-    // Run once immediately
-    checkServerStatus(url, el);
-    // Re-check every 30 seconds
-    setInterval(() => checkServerStatus(url, el), 30000);
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.server-status[data-url]').forEach(el => {
+        const url = el.dataset.url;
+
+        // add a small debug span (visible) to help diagnose deployed behavior
+        let debug = el.querySelector('.status-debug');
+        if (!debug) {
+            debug = document.createElement('span');
+            debug.className = 'status-debug';
+            debug.style.fontSize = '0.8rem';
+            debug.style.marginLeft = '8px';
+            debug.style.color = '#666';
+            el.appendChild(debug);
+        }
+
+        // helper to set debug text
+        const setDebug = (msg) => {
+            try { debug.textContent = msg; } catch (e) { /* ignore */ }
+            // also log to console for deeper inspection
+            console.debug('ServerStatus debug:', msg, url);
+        };
+
+        // Run once immediately
+        checkServerStatus(url, el).then(ok => setDebug(ok ? 'fetch/img ok' : 'not reachable'))
+            .catch(err => setDebug('error'));
+
+        // Re-check every 30 seconds
+        setInterval(() => {
+            checkServerStatus(url, el).then(ok => setDebug(ok ? 'fetch/img ok' : 'not reachable'))
+                .catch(err => setDebug('error'));
+        }, 30000);
+    });
 });
