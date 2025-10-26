@@ -173,6 +173,32 @@ function checkServerStatus(url, el, timeout = 5000) {
     });
 }
 
+// Try reading status.json written by GitHub Actions (same-origin)
+async function readStatusFromFile(el) {
+    try {
+        const res = await fetch('/portfolio/status.json', { cache: 'no-cache' });
+        if (!res.ok) {
+            console.debug('ServerStatus: status.json not available (res.ok=false)');
+            return null; // indicate file not available
+        }
+        const j = await res.json();
+        const online = !!j.online;
+        const dot = el.querySelector('.status-dot');
+        const text = el.querySelector('.status-text');
+        text.textContent = online ? 'Online' : 'Offline';
+        if (dot) dot.style.background = online ? '#28a745' : '#dc3545';
+        const debug = el.querySelector('.status-debug');
+        if (debug) {
+            try { debug.textContent = new Date(j.checked_at).toLocaleString() + (online ? ' — OK' : ' — DOWN'); } catch (e) { debug.textContent = j.checked_at; }
+        }
+        console.debug('ServerStatus: read status.json ->', j);
+        return online;
+    } catch (e) {
+        console.debug('ServerStatus: error reading status.json', e);
+        return null;
+    }
+}
+
 // Initialize status checks for any .server-status elements with data-url
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.server-status[data-url]').forEach(el => {
@@ -255,14 +281,37 @@ document.addEventListener('DOMContentLoaded', () => {
             link.textContent = 'Open ping image';
         } catch (e) { /* ignore */ }
 
-        // Run once immediately
-        checkServerStatus(url, el).then(ok => setDebug(ok ? 'fetch/img ok' : 'not reachable'))
-            .catch(err => setDebug('error'));
+        // Run once immediately: prefer status.json (written by GitHub Actions); fall back to client ping if file missing
+        (async () => {
+            const statusFromFile = await readStatusFromFile(el);
+            if (statusFromFile === null) {
+                // file not available: fall back to client-side ping
+                setDebug('status.json not found, falling back');
+                try {
+                    const ok = await checkServerStatus(url, el);
+                    setDebug(ok ? 'fetch/img ok' : 'not reachable');
+                } catch (e) {
+                    setDebug('error');
+                }
+            } else {
+                setDebug(statusFromFile ? 'status.json: online' : 'status.json: offline');
+            }
+        })();
 
-        // Re-check every 30 seconds
-        setInterval(() => {
-            checkServerStatus(url, el).then(ok => setDebug(ok ? 'fetch/img ok' : 'not reachable'))
-                .catch(err => setDebug('error'));
-        }, 30000);
+        // Refresh from status.json every 5 minutes (and also run fallback if file not present)
+        setInterval(async () => {
+            const statusFromFile = await readStatusFromFile(el);
+            if (statusFromFile === null) {
+                setDebug('status.json not found, falling back (periodic)');
+                try {
+                    const ok = await checkServerStatus(url, el);
+                    setDebug(ok ? 'fetch/img ok' : 'not reachable');
+                } catch (e) {
+                    setDebug('error');
+                }
+            } else {
+                setDebug(statusFromFile ? 'status.json: online' : 'status.json: offline');
+            }
+        }, 300000); // 5 minutes
     });
 });
