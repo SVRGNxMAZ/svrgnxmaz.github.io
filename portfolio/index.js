@@ -63,8 +63,8 @@ function checkServerStatus(url, el, timeout = 5000) {
     text.textContent = 'Checking...';
     // orange = checking
     dot.style.background = '#f0ad4e';
-    // Try fetch with no-cors first (good if /health exists or origin allows it), then fallback to image ping
-    function fetchNoCors(targetUrl, t = timeout) {
+    // Try fetch with cors first (if /health endpoint supports CORS), then fallback to image ping
+    function fetchWithCors(targetUrl, t = timeout) {
         return new Promise((resolve) => {
             if (!window.fetch || !window.AbortController) return resolve(false);
             try {
@@ -82,10 +82,11 @@ function checkServerStatus(url, el, timeout = 5000) {
                     fetchUrl = targetUrl.replace(/\/$/, '') + '/health';
                 }
 
-                fetch(fetchUrl, { method: 'GET', mode: 'no-cors', signal: controller.signal })
-                    .then(() => {
+                fetch(fetchUrl, { method: 'GET', mode: 'cors', signal: controller.signal })
+                    .then(response => {
                         clearTimeout(timer);
-                        resolve(true);
+                        // Check if response is ok (status 200-299)
+                        resolve(response.ok);
                     })
                     .catch(() => {
                         clearTimeout(timer);
@@ -131,9 +132,9 @@ function checkServerStatus(url, el, timeout = 5000) {
 
     return new Promise(async (resolve) => {
         try {
-            // 1) attempt fetch/no-cors to target origin (/health)
-            console.debug('ServerStatus: trying fetch/no-cors ->', url);
-            const fetchOk = await fetchNoCors(url, timeout);
+            // 1) attempt fetch with CORS to target origin (/health)
+            console.debug('ServerStatus: trying fetch with CORS ->', url);
+            const fetchOk = await fetchWithCors(url, timeout);
             if (fetchOk) {
                 el.classList.remove('offline');
                 el.classList.add('online');
