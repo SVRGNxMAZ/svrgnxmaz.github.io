@@ -85,14 +85,17 @@ function checkServerStatus(url, el, timeout = 5000) {
                 fetch(fetchUrl, { method: 'GET', mode: 'cors', signal: controller.signal })
                     .then(response => {
                         clearTimeout(timer);
-                        // Check if response is ok (status 200-299)
-                        resolve(response.ok);
+                        // Only accept HTTP 200 as online, anything else (including 502, 500, etc.) is offline
+                        console.debug('ServerStatus: fetch response status ->', response.status);
+                        resolve(response.status === 200);
                     })
-                    .catch(() => {
+                    .catch((err) => {
                         clearTimeout(timer);
+                        console.debug('ServerStatus: fetch error ->', err.message);
                         resolve(false);
                     });
             } catch (e) {
+                console.debug('ServerStatus: fetch exception ->', e.message);
                 resolve(false);
             }
         });
