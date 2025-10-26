@@ -196,6 +196,41 @@ document.addEventListener('DOMContentLoaded', () => {
             console.debug('ServerStatus debug:', msg, url);
         };
 
+        // create a manual check button so users can trigger ping on static deployments
+        let btn = el.querySelector('.status-check-btn');
+        if (!btn) {
+            btn = document.createElement('button');
+            btn.className = 'status-check-btn';
+            btn.type = 'button';
+            btn.textContent = 'Check Now';
+            btn.style.marginLeft = '8px';
+            btn.style.padding = '6px 10px';
+            btn.style.fontSize = '0.85rem';
+            btn.style.borderRadius = '8px';
+            btn.style.border = 'none';
+            btn.style.background = '#1976d2';
+            btn.style.color = '#fff';
+            btn.style.cursor = 'pointer';
+            el.appendChild(btn);
+        }
+
+        btn.addEventListener('click', async () => {
+            try {
+                btn.disabled = true;
+                const prev = btn.textContent;
+                btn.textContent = 'Checking...';
+                setDebug('manual check started');
+                const ok = await checkServerStatus(url, el);
+                setDebug(ok ? 'manual: fetch/img ok' : 'manual: not reachable');
+                btn.textContent = prev;
+            } catch (e) {
+                setDebug('manual: error');
+                console.error('ServerStatus manual check error', e);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
         // show ping URL and add a quick-open link for manual testing
         try {
             const pingUrl = (function () {
