@@ -110,7 +110,7 @@ function checkServerStatus(url, el, timeout = 5000) {
                 const pingUrl = (/^https?:\/\//i.test(targetUrl)
                     ? targetUrl.replace(/\/$/, '')
                     : window.location.origin.replace(/\/$/, '') + '/' + targetUrl.replace(/^\//, ''))
-                    + '/images/TravelBuddyLogo.png?_=' + Date.now();
+                    + '/favicon.ico?_=' + Date.now();
                 img.src = pingUrl;
                 img.onload = function () {
                     if (timedOut) return;
@@ -204,23 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.server-status[data-url]').forEach(el => {
         const url = el.dataset.url;
 
-        // add a small debug span (visible) to help diagnose deployed behavior
-        let debug = el.querySelector('.status-debug');
-        if (!debug) {
-            debug = document.createElement('span');
-            debug.className = 'status-debug';
-            debug.style.fontSize = '0.8rem';
-            debug.style.marginLeft = '8px';
-            debug.style.color = '#666';
-            el.appendChild(debug);
-        }
-
-        // helper to set debug text (adds timestamp)
-        const setDebug = (msg) => {
-            try { debug.textContent = new Date().toLocaleTimeString() + ' — ' + msg; } catch (e) { /* ignore */ }
-            // also log to console for deeper inspection
-            console.debug('ServerStatus debug:', msg, url);
-        };
+        // helper to update minimal debug via status-text only; we avoid extra visible debug UI
+        const setDebug = () => {};
 
         // create a manual check button so users can trigger ping on static deployments
         let btn = el.querySelector('.status-check-btn');
@@ -245,41 +230,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.disabled = true;
                 const prev = btn.textContent;
                 btn.textContent = 'Checking...';
-                setDebug('manual check started');
-                const ok = await checkServerStatus(url, el);
-                setDebug(ok ? 'manual: fetch/img ok' : 'manual: not reachable');
+                await checkServerStatus(url, el);
                 btn.textContent = prev;
             } catch (e) {
-                setDebug('manual: error');
                 console.error('ServerStatus manual check error', e);
             } finally {
                 btn.disabled = false;
             }
         });
 
-        // show ping URL and add a quick-open link for manual testing
-        try {
-            const pingUrl = (function () {
-                if (/^https?:\/\//i.test(url)) {
-                    return url.replace(/\/$/, '') + '/images/TravelBuddyLogo.png';
-                }
-                return window.location.origin.replace(/\/$/, '') + '/' + String(url).replace(/^\//, '') + '/images/TravelBuddyLogo.png';
-            })();
-            // clickable small link
-            let link = el.querySelector('.status-ping-link');
-            if (!link) {
-                link = document.createElement('a');
-                link.className = 'status-ping-link';
-                link.style.marginLeft = '8px';
-                link.style.fontSize = '0.8rem';
-                link.style.color = '#1976d2';
-                link.style.textDecoration = 'underline';
-                link.target = '_blank';
-                el.appendChild(link);
-            }
-            link.href = pingUrl;
-            link.textContent = 'Open ping image';
-        } catch (e) { /* ignore */ }
+        // no extra debug UI created; keep markup minimal (status-dot/status-text/button)
 
         // Run once immediately: prefer status.json (written by GitHub Actions); fall back to client ping if file missing
         (async () => {

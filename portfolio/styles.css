@@ -444,18 +444,7 @@ nav {
 }
 
 /* Static controls for server status */
-.server-status .status-debug {
-    font-size: 0.85rem;
-    margin-left: 8px;
-    color: #666;
-}
-
-.server-status .status-ping-link {
-    font-size: 0.85rem;
-    margin-left: 8px;
-    color: #1976d2;
-    text-decoration: underline;
-}
+/* debug and ping link removed; keep styles only for check button below */
 
 .server-status .status-check-btn {
     margin-left: 8px;
