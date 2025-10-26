@@ -63,45 +63,113 @@ function checkServerStatus(url, el, timeout = 5000) {
     text.textContent = 'Checking...';
     // orange = checking
     dot.style.background = '#f0ad4e';
+    // Try fetch with no-cors first (good if /health exists or origin allows it), then fallback to image ping
+    function fetchNoCors(targetUrl, t = timeout) {
+        return new Promise((resolve) => {
+            if (!window.fetch || !window.AbortController) return resolve(false);
+            try {
+                const controller = new AbortController();
+                const timer = setTimeout(() => {
+                    controller.abort();
+                    resolve(false);
+                }, t);
 
-    return new Promise((resolve) => {
-        let timedOut = false;
-        const timer = setTimeout(() => {
-            timedOut = true;
+                // If caller passed a full url (like https://...), use it; otherwise build from url
+                let fetchUrl = targetUrl;
+                // Prefer /health on target origin if given just origin
+                if (/^https?:\/\//i.test(targetUrl)) {
+                    // try /health on the origin
+                    fetchUrl = targetUrl.replace(/\/$/, '') + '/health';
+                }
+
+                fetch(fetchUrl, { method: 'GET', mode: 'no-cors', signal: controller.signal })
+                    .then(() => {
+                        clearTimeout(timer);
+                        resolve(true);
+                    })
+                    .catch(() => {
+                        clearTimeout(timer);
+                        resolve(false);
+                    });
+            } catch (e) {
+                resolve(false);
+            }
+        });
+    }
+
+    function imagePing(targetUrl, t = timeout) {
+        return new Promise((resolve) => {
+            let timedOut = false;
+            const timer = setTimeout(() => {
+                timedOut = true;
+                resolve(false);
+            }, t);
+
+            try {
+                const img = new Image();
+                const pingUrl = (/^https?:\/\//i.test(targetUrl)
+                    ? targetUrl.replace(/\/$/, '')
+                    : window.location.origin.replace(/\/$/, '') + '/' + targetUrl.replace(/^\//, ''))
+                    + '/images/TravelBuddyLogo.png?_=' + Date.now();
+                img.src = pingUrl;
+                img.onload = function () {
+                    if (timedOut) return;
+                    clearTimeout(timer);
+                    resolve(true);
+                };
+                img.onerror = function () {
+                    if (timedOut) return;
+                    clearTimeout(timer);
+                    resolve(false);
+                };
+            } catch (e) {
+                clearTimeout(timer);
+                resolve(false);
+            }
+        });
+    }
+
+    return new Promise(async (resolve) => {
+        try {
+            // 1) attempt fetch/no-cors to target origin (/health)
+            console.debug('ServerStatus: trying fetch/no-cors ->', url);
+            const fetchOk = await fetchNoCors(url, timeout);
+            if (fetchOk) {
+                el.classList.remove('offline');
+                el.classList.add('online');
+                text.textContent = 'Online';
+                if (dot) dot.style.background = '#28a745';
+                console.debug('ServerStatus: fetch succeeded -> online');
+                return resolve(true);
+            }
+
+            // 2) fallback to image ping
+            console.debug('ServerStatus: fetch failed, trying image ping ->', url);
+            const imgOk = await imagePing(url, timeout);
+            if (imgOk) {
+                el.classList.remove('offline');
+                el.classList.add('online');
+                text.textContent = 'Online';
+                if (dot) dot.style.background = '#28a745';
+                console.debug('ServerStatus: image ping succeeded -> online');
+                return resolve(true);
+            }
+
+            // neither worked -> offline
             el.classList.remove('online');
             el.classList.add('offline');
             text.textContent = 'Offline';
-            // red = offline
             if (dot) dot.style.background = '#dc3545';
-            resolve(false);
-        }, timeout);
-
-        // Use image ping (works around CORS for reachability)
-        const img = new Image();
-        // Append a cache-busting query param
-        img.src = url.replace(/\/$/, '') + '/images/favicon.ico' + '?_=' + Date.now();
-
-        img.onload = function() {
-            if (timedOut) return;
-            clearTimeout(timer);
-            el.classList.remove('offline');
-            el.classList.add('online');
-            text.textContent = 'Online';
-            // green = online
-            if (dot) dot.style.background = '#28a745';
-            resolve(true);
-        };
-
-        img.onerror = function() {
-            if (timedOut) return;
-            clearTimeout(timer);
+            console.debug('ServerStatus: both checks failed -> offline');
+            return resolve(false);
+        } catch (err) {
+            console.error('ServerStatus: unexpected error', err);
             el.classList.remove('online');
             el.classList.add('offline');
             text.textContent = 'Offline';
-            // red = offline
             if (dot) dot.style.background = '#dc3545';
-            resolve(false);
-        };
+            return resolve(false);
+        }
     });
 }
 
