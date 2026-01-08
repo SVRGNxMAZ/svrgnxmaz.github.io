@@ -34,11 +34,11 @@ document.querySelectorAll('.fade-in').forEach(el => {
 window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
     if (window.scrollY > 100) {
-        header.style.background = 'rgba(255, 255, 255, 0.95)';
-        header.style.color = '#333';
+        header.style.background = 'rgba(250, 250, 250, 0.98)';
+        header.style.boxShadow = '0 4px 20px rgba(212, 175, 55, 0.1)';
     } else {
-        header.style.background = 'rgba(255, 255, 255, 0.1)';
-        header.style.color = 'white';
+        header.style.background = 'rgba(245, 245, 245, 0.95)';
+        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
     }
 });
 
@@ -177,15 +177,10 @@ function checkServerStatus(url, el, timeout = 5000) {
     });
 }
 
-// Try reading status.json written by GitHub Actions (same-origin)
-// Note: status.json handling removed — using client-side ping only.
-
 // Initialize status checks for any .server-status elements with data-url
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.server-status[data-url]').forEach(el => {
         const url = el.dataset.url;
-
-    // keep markup minimal (status-dot/status-text/button)
 
         // create a manual check button so users can trigger ping on static deployments
         let btn = el.querySelector('.status-check-btn');
@@ -199,11 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.fontSize = '0.85rem';
             btn.style.borderRadius = '8px';
             btn.style.border = 'none';
-            btn.style.background = '#1976d2';
+            btn.style.background = '#D4AF37';
             btn.style.color = '#fff';
             btn.style.cursor = 'pointer';
+            btn.style.transition = 'all 0.3s ease';
             el.appendChild(btn);
         }
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = '#B8941E';
+            btn.style.transform = 'translateY(-2px)';
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = '#D4AF37';
+            btn.style.transform = 'translateY(0)';
+        });
 
         btn.addEventListener('click', async () => {
             try {
@@ -219,9 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // no extra debug UI created; keep markup minimal (status-dot/status-text/button)
-
-        // Run one client-side check immediately (no status.json fallback)
+        // Run one client-side check immediately
         (async () => {
             try {
                 await checkServerStatus(url, el);

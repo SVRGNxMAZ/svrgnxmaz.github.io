@@ -1,48 +1,56 @@
-:root {
-    --dark-blue: #1e3a8a;
-    --primary-orange: #f97316;
-    --primary-blue: #3b82f6;
-    --light-orange: #fed7aa;
-    --light-blue: #dbeafe;
+﻿:root {
+    --primary-gold: #D4AF37;
+    --gold-light: #F4E4C1;
+    --gold-dark: #B8941E;
+    --black-pure: #000000;
+    --black-soft: #0A0A0A;
+    --black-medium: #1A1A1A;
     
-    --bg-color: #ffffff;
-    --text-color: #1e3a8a;
-    --nametext-color: #1e3a8a;
-    --card-bg: #dbeafe;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --link-hover: #fed7aa;
-    --social-bg: rgba(219, 234, 254, 0.7);
-    --social-hover: #fed7aa;
+    --bg-color: #FFFFFF;
+    --text-color: #1A1A1A;
+    --nametext-color: #000000;
+    --card-bg: #F8F8F8;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --link-hover: #D4AF37;
+    --social-bg: rgba(248, 248, 248, 0.9);
+    --social-hover: #D4AF37;
+    --accent-color: #D4AF37;
 }
 
 .dark-mode {
-    --bg-color: #1e3a8a;
-    --text-color: #fed7aa;
-    --nametext-color: #ffffff;
-    --card-bg: rgba(30, 58, 138, 0.9);
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --link-hover: #f97316;
-    --social-bg: rgba(30, 58, 138, 0.7);
-    --social-hover: #f97316;
+    --bg-color: #000000;
+    --text-color: #D4AF37;
+    --nametext-color: #F4E4C1;
+    --card-bg: rgba(26, 26, 26, 0.8);
+    --card-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+    --link-hover: #F4E4C1;
+    --social-bg: rgba(26, 26, 26, 0.8);
+    --social-hover: #F4E4C1;
+    --accent-color: #F4E4C1;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 body {
     color: var(--text-color);
     min-height: 100vh;
-    transition: all 0.3s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
     background-color: var(--bg-color);
     position: relative;
     overflow-x: hidden;
+    letter-spacing: 0.3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Decorative Background Elements */
+/* Minimalist futuristic grid background */
 body::before {
     content: '';
     position: fixed;
@@ -50,170 +58,156 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 20%, var(--primary-blue) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, var(--primary-orange) 0%, transparent 50%),
-        radial-gradient(circle at 40% 70%, var(--light-blue) 0%, transparent 40%),
-        radial-gradient(circle at 90% 10%, var(--light-orange) 0%, transparent 40%),
-        radial-gradient(circle at 10% 90%, var(--primary-blue) 0%, transparent 30%);
-    opacity: 0.1;
+    background-image: 
+        linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
     z-index: -2;
-    animation: backgroundFloat 20s ease-in-out infinite;
 }
 
 .dark-mode body::before {
-    background: 
-        radial-gradient(circle at 20% 20%, var(--primary-orange) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, var(--light-orange) 0%, transparent 50%),
-        radial-gradient(circle at 40% 70%, var(--primary-blue) 0%, transparent 40%),
-        radial-gradient(circle at 90% 10%, var(--light-blue) 0%, transparent 40%),
-        radial-gradient(circle at 10% 90%, var(--primary-orange) 0%, transparent 30%);
-    opacity: 0.15;
+    background-image: 
+        linear-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
 }
 
-/* Floating geometric shapes */
+/* Subtle accent glow */
 body::after {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, var(--primary-blue), transparent),
-        radial-gradient(2px 2px at 40px 70px, var(--primary-orange), transparent),
-        radial-gradient(1px 1px at 90px 40px, var(--light-blue), transparent),
-        radial-gradient(1px 1px at 130px 80px, var(--light-orange), transparent),
-        radial-gradient(2px 2px at 160px 30px, var(--primary-blue), transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    opacity: 0.3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
     z-index: -1;
-    animation: floatingDots 25s linear infinite;
+    animation: pulseGlow 8s ease-in-out infinite;
 }
 
 .dark-mode body::after {
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, var(--primary-orange), transparent),
-        radial-gradient(2px 2px at 40px 70px, var(--light-orange), transparent),
-        radial-gradient(1px 1px at 90px 40px, var(--primary-blue), transparent),
-        radial-gradient(1px 1px at 130px 80px, var(--light-blue), transparent),
-        radial-gradient(2px 2px at 160px 30px, var(--primary-orange), transparent);
-    opacity: 0.2;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
 }
 
-@keyframes backgroundFloat {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    33% { transform: translateY(-10px) rotate(120deg); }
-    66% { transform: translateY(10px) rotate(240deg); }
+@keyframes pulseGlow {
+    0%, 100% { 
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
 }
 
-@keyframes floatingDots {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-100px); }
-}
-
-/* Glass morphism effect for container */
+/* Minimalist container */
 .container {
-    max-width: 680px;
+    max-width: 640px;
+    width: 100%;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 60px 20px;
     position: relative;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 .dark-mode .container {
-    background: rgba(30, 58, 138, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
 }
 
 header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 48px;
     position: relative;
 }
 
-/* Add subtle glow to profile image */
+/* Minimalist profile image with gold accent */
 .profile-image {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     overflow: hidden;
-    margin-bottom: 16px;
-    border: 3px solid var(--primary-orange);
-    transition: all 0.3s ease;
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+    margin-bottom: 20px;
+    border: 2px solid var(--accent-color);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
 }
 
 .profile-image::before {
     content: '';
     position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    background: linear-gradient(45deg, var(--primary-orange), var(--primary-blue));
+    inset: -2px;
     border-radius: 50%;
-    z-index: -1;
-    opacity: 0.5;
-    animation: profileGlow 3s ease-in-out infinite alternate;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--primary-gold), var(--gold-light));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-@keyframes profileGlow {
-    0% { opacity: 0.5; transform: scale(1); }
-    100% { opacity: 0.8; transform: scale(1.05); }
+.profile-image:hover::before {
+    opacity: 1;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
 }
 
 .profile-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: relative;
-    z-index: 1;
+    filter: grayscale(0%);
+    transition: filter 0.4s ease;
+}
+
+.profile-image:hover img {
+    filter: grayscale(0%) brightness(1.05);
 }
 
 .profile-name {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
     text-align: center;
     color: var(--nametext-color);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .profile-bio {
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     margin-bottom: 8px;
     color: var(--text-color);
+    opacity: 0.8;
 }
 
 .links-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 30px;
+    gap: 10px;
+    margin-bottom: 40px;
 }
 
 .link-item {
     display: flex;
     align-items: center;
-    padding: 16px;
+    padding: 18px 20px;
     background-color: var(--card-bg);
-    border-radius: 12px;
+    border-radius: 6px;
     text-decoration: none;
     color: var(--text-color);
     box-shadow: var(--card-shadow);
-    transition: all 0.3s ease;
-    border: 1px solid var(--primary-blue);
-    backdrop-filter: blur(5px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    border-left: 3px solid var(--accent-color);
     position: relative;
     overflow: hidden;
 }
@@ -222,78 +216,86 @@ header {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 100%;
+    left: 0;
+    width: 0;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+    transition: width 0.4s ease;
+    z-index: 0;
 }
 
 .link-item:hover::before {
-    left: 100%;
+    width: 100%;
 }
 
 .link-item:hover {
-    transform: translateY(-2px);
-    background-color: var(--link-hover);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    color: var(--dark-blue);
+    transform: translateX(4px);
+    border-left-width: 4px;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.dark-mode .link-item:hover {
+    background-color: rgba(212, 175, 55, 0.05);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
 }
 
 .link-icon {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     margin-right: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    z-index: 1;
 }
 
 .link-icon svg {
-    width: 24px;
-    height: 24px;
-    fill: var(--text-color);
+    width: 20px;
+    height: 20px;
+    fill: var(--accent-color);
     transition: all 0.3s ease;
 }
 
 .link-item:hover .link-icon svg {
-    fill: var(--dark-blue);
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.1);
 }
 
 .link-text {
     flex: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .link-title {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 4px;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 2px;
+    letter-spacing: 0.3px;
 }
 
 .link-description {
-    font-size: 14px;
-    opacity: 0.9;
+    font-size: 13px;
+    opacity: 0.7;
 }
 
 .social-links {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin-bottom: 40px;
 }
 
 .social-link {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--social-bg);
-    transition: all 0.3s ease;
-    border: 1px solid var(--primary-blue);
-    backdrop-filter: blur(5px);
+    background-color: transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1.5px solid var(--accent-color);
     position: relative;
     overflow: hidden;
 }
@@ -301,13 +303,11 @@ header {
 .social-link::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    inset: 0;
+    background: var(--accent-color);
     transform: scale(0);
     transition: transform 0.3s ease;
+    border-radius: 50%;
 }
 
 .social-link:hover::before {
@@ -315,96 +315,128 @@ header {
 }
 
 .social-link:hover {
-    transform: translateY(-2px) scale(1.1);
-    background-color: var(--social-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
 }
 
 .social-link svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--text-color);
+    width: 18px;
+    height: 18px;
+    fill: var(--accent-color);
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
 }
 
 .social-link:hover svg {
-    fill: var(--dark-blue);
+    fill: var(--bg-color);
 }
 
 footer {
     text-align: center;
-    font-size: 14px;
-    opacity: 0.9;
-    padding: 10px 0;
+    font-size: 12px;
+    opacity: 0.6;
+    padding: 20px 0 10px;
     color: var(--text-color);
-    backdrop-filter: blur(5px);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.5px;
+    font-weight: 300;
 }
 
 .theme-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background-color: var(--card-bg);
+    background-color: var(--accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
     z-index: 100;
-    transition: all 0.3s ease;
-    border: 1px solid var(--primary-blue);
-    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid var(--accent-color);
+}
+
+.dark-mode .theme-toggle {
+    background-color: var(--card-bg);
+    border-color: var(--accent-color);
 }
 
 .theme-toggle:hover {
-    transform: scale(1.1) rotate(180deg);
-    background-color: var(--link-hover);
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+    transform: rotate(180deg) scale(1.15);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.6);
 }
 
 .theme-toggle svg {
-    width: 24px;
-    height: 24px;
-    fill: var(--text-color);
-    transition: all 0.3s ease;
+    width: 22px;
+    height: 22px;
+    fill: var(--bg-color);
+    transition: all 0.4s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.dark-mode .theme-toggle svg {
+    fill: var(--accent-color);
+    filter: drop-shadow(0 1px 2px rgba(212, 175, 55, 0.4));
 }
 
 .theme-toggle:hover svg {
-    fill: var(--dark-blue);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 @media (max-width: 600px) {
     .container {
-        padding: 30px 15px;
-        margin: 10px;
+        padding: 40px 20px;
     }
     
     .profile-image {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
+    }
+    
+    .profile-name {
+        font-size: 18px;
     }
     
     .link-item {
-        padding: 12px;
+        padding: 16px 18px;
+    }
+    
+    .link-title {
+        font-size: 14px;
+    }
+    
+    .link-description {
+        font-size: 12px;
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .social-link svg {
+        width: 16px;
+        height: 16px;
     }
     
     .theme-toggle {
-        width: 40px;
-        height: 40px;
-        top: 15px;
-        right: 15px;
+        width: 44px;
+        height: 44px;
+        top: 16px;
+        right: 16px;
     }
     
-    /* Reduce background effects on mobile for better performance */
-    body::before,
+    .theme-toggle svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* Optimize animations for mobile */
     body::after {
-        opacity: 0.05;
+        animation-duration: 10s;
     }
 }
